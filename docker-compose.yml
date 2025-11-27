@@ -7,14 +7,15 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3020:3020"
     environment:
       NODE_ENV: production
       DATABASE_URL: postgresql://kewen:kewen123@postgres:5432/kewen_api?schema=public
       REDIS_HOST: redis
       REDIS_PORT: 6379
       JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key}
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3001}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3021}
+      PORT: 3020
     depends_on:
       postgres:
         condition: service_healthy
@@ -60,6 +61,19 @@ services:
       interval: 10s
       timeout: 3s
       retries: 5
+    restart: unless-stopped
+    networks:
+      - kewen-network
+
+  # Web Frontend
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3021:80"
+    depends_on:
+      - api
     restart: unless-stopped
     networks:
       - kewen-network
