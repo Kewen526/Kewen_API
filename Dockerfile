@@ -10,7 +10,7 @@ COPY package*.json ./
 COPY tsconfig.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
 # Copy source code
 COPY src ./src
@@ -29,7 +29,7 @@ WORKDIR /app
 
 # Install production dependencies only
 COPY package*.json ./
-RUN npm ci --production && npm cache clean --force
+RUN npm install --production && npm cache clean --force
 
 # Copy built files from builder
 COPY --from=builder /app/dist ./dist
