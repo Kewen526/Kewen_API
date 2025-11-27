@@ -74,7 +74,8 @@ npx prisma generate
 npm run dev
 ```
 
-The API will be available at `http://localhost:3000`
+The API will be available at `http://localhost:3020`
+The Web UI will be available at `http://localhost:3021`
 
 ### Docker Deployment
 
@@ -89,16 +90,39 @@ docker-compose logs -f api
 docker-compose down
 ```
 
-## 📚 API Documentation
+## 📚 访问地址
 
-Once the server is running, access the interactive API documentation at:
-- Swagger UI: `http://localhost:3000/api-docs`
+服务启动后,可以访问以下地址:
+
+- **Web 管理界面**: `http://localhost:3021` (中文界面)
+- **API 服务**: `http://localhost:3020`
+- **Swagger 文档**: `http://localhost:3020/api-docs`
+- **pgAdmin**: `http://localhost:5050` (admin@kewen-api.com / admin123)
+- **Redis Commander**: `http://localhost:8081`
+
+## 🎨 中文 Web 管理界面
+
+本平台提供了功能完整的中文 Web 管理界面，包括：
+
+- 📊 **仪表板** - 数据概览和统计
+- 🗄️ **数据源管理** - 可视化管理多个数据库连接
+- 💻 **SQL 编辑器** - 在线执行和测试 SQL，支持语法高亮
+- 🔌 **API 管理** - 可视化创建、编辑、发布 API
+- 📈 **监控中心** - 实时性能监控和调用分析
+
+访问 `http://localhost:3021` 即可使用中文管理界面！
+
+默认登录账号:
+- 管理员: `admin` / `admin123`
+- 演示账号: `demo` / `demo123`
+
+## API 使用示例
 
 ### Authentication
 
 #### Register a new user
 ```bash
-curl -X POST http://localhost:3000/api/auth/register \
+curl -X POST http://localhost:3020/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "username": "admin",
@@ -109,7 +133,7 @@ curl -X POST http://localhost:3000/api/auth/register \
 
 #### Login
 ```bash
-curl -X POST http://localhost:3000/api/auth/login \
+curl -X POST http://localhost:3020/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "username": "admin",
@@ -120,7 +144,7 @@ curl -X POST http://localhost:3000/api/auth/login \
 ### Create a Data Source
 
 ```bash
-curl -X POST http://localhost:3000/api/datasources \
+curl -X POST http://localhost:3020/api/datasources \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -137,7 +161,7 @@ curl -X POST http://localhost:3000/api/datasources \
 ### Create an API
 
 ```bash
-curl -X POST http://localhost:3000/api/apis \
+curl -X POST http://localhost:3020/api/apis \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -155,7 +179,7 @@ curl -X POST http://localhost:3000/api/apis \
 
 ```bash
 # Using API Key
-curl -X GET "http://localhost:3000/api/dynamic/users?status=active&limit=10" \
+curl -X GET "http://localhost:3020/api/dynamic/users?status=active&limit=10" \
   -H "X-API-Key: YOUR_API_KEY"
 ```
 
@@ -186,7 +210,7 @@ Key configuration options in `.env`:
 
 ```env
 # Server
-PORT=3000
+PORT=3020
 NODE_ENV=production
 
 # Database (Platform DB)
